@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+		<script src="https://cdn.jsdelivr.net/npm/three@0.126.1/build/three.min.js"></script>
+	</head>
+	<body>
+	
+	
+		<script type="module" >
+
+		var X = 0 ;
+		var Y = 0;
+		var Z = 0;
+		var ALPHA = 0;
+		var BETA = 0;
+		var GAMMA = 0;
+		var T = 0;
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', function(event) {
+                X += event.acceleration.x;
+                Y += event.acceleration.y;
+                Z += event.acceleration.z;
+				//ALPHA = event.rotationRate.alpha;
+				//accelerationBETA = event.rotationRate.beta;
+				//GAMMA = event.rotationRate.gamma;
+				T += event.interval;
+
+				
+
+            });
+        } else {
+            document.getElementById('X').textContent = 'El dispositivo no admite el acelerómetro.';
+        }
+		if (window.DeviceOrientationEvent) {
+			window.addEventListener('deviceorientation', function(event) {
+				ALPHA += event.alpha;
+				BETA += event.beta;
+				GAMMA += event.gamma;
+			});
+        } else {
+            document.getElementById('X').textContent = 'El dispositivo no admite el acelerómetro.';
+        }
+
+
+//https://codepen.io/asterix77/pen/dLdraK
+var scene = new THREE.Scene();
+
+
+// Camera
+var aspect = window.innerWidth / window.innerHeight;
+var camera = new THREE.PerspectiveCamera( 60, aspect, 0.1, 1000 );
+camera.position.z = 5;
+camera.position.x = 5;
+camera.position.y = 5;
+camera.lookAt(0, 1.5, 0);
+camera.updateProjectionMatrix();
+// var controls = new THREE.OrbitControls( camera );
+
+
+// Renderer
+var renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+
+// Model: 
+var material = new THREE.MeshStandardMaterial();
+
+var geometry = new THREE.BoxGeometry( 2, 1, 2 );
+var base = new THREE.Mesh( geometry, material );
+scene.add( base );
+
+var shoulder = new THREE.Object3D();
+shoulder.translateY(0.5);
+base.add(shoulder);
+
+geometry = new THREE.BoxGeometry(0.5, 2, 0.5);
+var lowerArm = new THREE.Mesh( geometry, material );
+lowerArm.translateY(1);
+shoulder.add(lowerArm);
+
+var elbow = new THREE.Object3D();
+elbow.translateY(0.5);
+lowerArm.add(elbow);
+
+
+geometry = new THREE.BoxGeometry(0.5, 2, 0.5);
+var Arm = new THREE.Mesh( geometry, material );
+Arm.translateY(1);
+elbow.add(Arm);
+
+// Light
+var light = new THREE.DirectionalLight(0xffffff, 1.0);
+light.position.set(10, 5, 10);
+light.target = base;
+scene.add(light);
+
+light = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(light);
+
+
+// Options (DAT.GUI)
+var options = {
+  base: 0,
+  shoulder: 0,
+};
+// DAT.GUI Related Stuff
+//var gui = new dat.GUI();
+//gui.add(options, 'base', -180, 180).listen();
+//gui.add(options, 'shoulder', -180, 180).listen();
+
+
+// Rendering
+var zAxis = new THREE.Vector3(0, 0, 1);
+var yAxis = new THREE.Vector3(0, 1, 0);
+
+var GAMMA1=30
+var X1= 45
+
+
+var render = function () {
+  requestAnimationFrame( render );
+  
+  GAMMA1=GAMMA1+1
+  if (GAMMA1>90){
+    GAMMA1=GAMMA1-90
+  }	
+  
+  // Rotate joints
+  base.setRotationFromAxisAngle(yAxis, X1 * Math.PI / 180)
+  shoulder.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180)
+  elbow.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180);
+
+  // Render
+  renderer.render( scene, camera );
+};
+
+render();
+		</script>
+	</body>
+</html>
