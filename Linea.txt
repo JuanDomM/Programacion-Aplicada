@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <style>
+        body { margin: 0; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <script type="module">
+
+        var X = 0;
+        var Y = 0;
+        var Z = 0;
+        var ALPHA = 0;
+        var BETA = 0;
+        var GAMMA = 0;
+        var T = 0;
+
+        // Comprueba si el dispositivo admite DeviceMotion y DeviceOrientation
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', function(event) {
+                X += event.acceleration.x;
+                Y += event.acceleration.y;
+                Z += event.acceleration.z;
+                T += event.interval;
+            });
+        } else {
+            console.log('El dispositivo no admite el acelerómetro.');
+        }
+
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', function(event) {
+                ALPHA += event.alpha;
+                BETA += event.beta;
+                GAMMA += event.gamma;
+            });
+        } else {
+            console.log('El dispositivo no admite el giroscopio.');
+        }
+
+        var scene = new THREE.Scene();
+
+        var aspect = window.innerWidth / window.innerHeight;
+        var camera = a new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+        camera.position.z = 5;
+        camera.position.x = 5;
+        camera.position.y = 5;
+        camera.lookAt(0, 1.5, 0);
+        camera.updateProjectionMatrix();
+
+        var renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var material = new THREE.MeshStandardMaterial();
+        var geometry = new THREE.BoxGeometry(2, 1, 2);
+        var base = new THREE.Mesh(geometry, material);
+        scene.add(base);
+
+        var shoulder = new THREE.Object3D();
+        shoulder.translateY(0.5);
+        base.add(shoulder);
+
+        geometry = new THREE.BoxGeometry(0.5, 2, 0.5);
+        var lowerArm = new THREE.Mesh(geometry, material);
+        lowerArm.translateY(1);
+        shoulder.add(lowerArm);
+
+        var elbow = new THREE.Object3D();
+        elbow.translateY(0.5);
+        lowerArm add(elbow);
+
+        geometry = new THREE.BoxGeometry(0.5, 2, 0.5);
+        var Arm = new THREE.Mesh(geometry, material);
+        Arm.translateY(1);
+        elbow.add(Arm);
+
+        var light = new THREE.DirectionalLight(0xffffff, 1.0);
+        light.position.set(10, 5, 10);
+        light.target = base;
+        scene.add(light);
+
+        light = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(light);
+
+        var GAMMA1 = 30;
+        var X1 = 45;
+
+        var zAxis = new THREE.Vector3(0, 0, 1);
+        var yAxis = new THREE.Vector3(0, 1, 0);
+
+        var P = new THREE.Vector3(lowerArm/2,base/2,lowerArm/2);
+        var Q = new THREE.Vector3(lowerArm+(Arm/2),base/2,lowerArm+(Arm/2));
+
+        // Define los puntos P y Q en el espacio 3D
+
+        function moveArmToPoints(P, Q) {
+    // Número de pasos intermedios para la interpolación
+    var numSteps = 60;
+
+    // Calcula las posiciones intermedias entre P y Q
+    var intermediatePositions = [];
+    for (var i = 0; i <= numSteps; i++) {
+        var factor = i / numSteps;
+        var intermediatePosition = new THREE.Vector3(
+            (1 - factor) * P.x + factor * Q.x,
+            (1 - factor) * P.y + factor * Q.y,
+            (1 - factor) * P.z + factor * Q.z
+        );
+        intermediatePositions.push(intermediatePosition);
+    }
+
+    // Función para realizar la interpolación y animación del brazo
+    function animateArm() {
+        var step = 0;
+        var interval = 100;  // Intervalo en milisegundos entre cada paso
+
+        var animateStep = function () {
+            if (step < intermediatePositions.length) {
+                // Mueve el brazo al punto intermedio
+                var intermediatePosition = intermediatePositions[step];
+
+                // Calcula th1, r1, r2, phi2, r3, phi1, th2, phi3 y th3 aquí
+                var th1 = Math.atan2(intermediatePosition.y, intermediatePosition.x);
+                var r1 = Math.sqrt(intermediatePosition.x ** 2 + intermediatePosition.y ** 2);
+                var r2 = -(intermediatePosition.z - a1);
+                var phi2 = Math.atan2(r2, r1);
+                var r3 = Math.sqrt(r1 ** 2 + r2 ** 2);
+                var phi1 = Math.acos((a3 ** 2 - a2 ** 2 - r3 ** 2) / (-2 * a2 * r3));
+                var th2 = phi2 - phi1;
+                var phi3 = Math.acos((r3 ** 2 - a2 ** 2 - a3 ** 2) / (-2 * a2 * a3));
+                var th3 = Math.PI - phi3;
+
+                // Ajusta la posición del brazo según intermediatePosition
+                Arm.position.copy(intermediatePosition);
+
+                // Ajusta la orientación de los objetos que representan las articulaciones
+                shoulder.rotation.z = th1;
+                elbow.rotation.z = th2;
+
+                // Incrementa el paso
+                step++;
+
+                // Llama a la función de animación nuevamente
+                setTimeout(animateStep, interval);
+            }
+        }
+            
+            
+
+            // Comienza la animación
+            animate();
+        }
+
+        // Llama a la función para mover el brazo de P a Q
+        moveArmToQ();
+    </script>
+</body>
+</html>
