@@ -126,22 +126,31 @@
             animateArm();
         }
 
-        function render() {
-            requestAnimationFrame(render);
-            // Rotate joints
-            /*base.setRotationFromAxisAngle(yAxis, X1 * Math.PI / 180)
-            shoulder.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180)
-            elbow.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180);*/
 
-            // Render
-            renderer.render(scene, camera);
-        }
 
-        render();
+var render = function () {
+  requestAnimationFrame( render );
+  moveArmToPoints(P, Q);
+  animateArm();
+  animateStep();
 
-    </script>
-</body>
+  
+/*GAMMA1=GAMMA1+1
+  if (GAMMA1>90){
+    GAMMA1=GAMMA1-90
+  }	
+  
+  // Rotate joints
+  base.setRotationFromAxisAngle(yAxis, X1 * Math.PI / 180)
+  shoulder.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180)
+  elbow.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180);*/
 
+  // Render
+  renderer.render( scene, camera );
+};
+
+render();
+		</script>
+	</body>
 </html>
-
 
