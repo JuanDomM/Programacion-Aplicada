@@ -1,28 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <title>My first three.js app</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Brazo</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.126.1/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.126.1/build/three.min.js" onload="init()"></script>
 </head>
-
 <body>
 
-    <script type="module">
-        var scene = new THREE.Scene();
+<div class="container">
+    <div class="controls" style="margin-right: 50px;">
+        <button id="forwardBtn">Adelante</button>
+        <button id="backwardBtn">Atrás</button>
+    </div>
 
+    <div class="controls">
+        <button id="turnLeftBtn">Girar Izquierda</button>
+        <button id="turnRightBtn">Girar Derecha</button>
+    </div>
+</div>
+
+<script type="module">
+    function init() {
+        var scene = new THREE.Scene();
         var aspect = window.innerWidth / window.innerHeight;
         var camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
         camera.position.z = 5;
         camera.position.x = 5;
         camera.position.y = 5;
-        camera.lookAt(0, 1.5, 0);
+        camera.lookAt(0, 0, 0);  // Ajustado para mirar al origen
         camera.updateProjectionMatrix();
 
         var renderer = new THREE.WebGLRenderer({
@@ -80,7 +124,7 @@
         var P = new THREE.Vector3((lowerArm.position.x) / 2, (base.position.y) / 2, (lowerArm.position.z) / 2);
         var Q = new THREE.Vector3((lowerArm.position.x) + (Arm.position.x / 2), (base.position.y) / 2, (lowerArm.position.z) + (Arm.position.z / 2));
 
-        function moveArmToPoints(P, Q) {
+       function moveArmToPoints(P, Q) {
             var numSteps = 60;
             var intermediatePositions = [];
             for (var i = 0; i <= numSteps; i++) {
@@ -126,31 +170,19 @@
             animateArm();
         }
 
+        var render = function () {
+            requestAnimationFrame(render);
+            // Llamada a función de animación
+            moveArmToPoints(P, Q);
 
+            // Renderizar
+            renderer.render(scene, camera);
+        };
 
-var render = function () {
-  requestAnimationFrame( render );
-  moveArmToPoints(P, Q);
-  animateArm();
-  animateStep();
+        render();
+    }
+</script>
 
-  
-/*GAMMA1=GAMMA1+1
-  if (GAMMA1>90){
-    GAMMA1=GAMMA1-90
-  }	
-  
-  // Rotate joints
-  base.setRotationFromAxisAngle(yAxis, X1 * Math.PI / 180)
-  shoulder.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180)
-  elbow.setRotationFromAxisAngle(zAxis, GAMMA1 * Math.PI / 180);*/
-
-  // Render
-  renderer.render( scene, camera );
-};
-
-render();
-		</script>
-	</body>
+</body>
 </html>
 
