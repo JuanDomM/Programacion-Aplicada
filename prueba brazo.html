@@ -64,6 +64,7 @@
     const width = window.innerWidth;
     const height = window.innerHeight / 2;
     var scene, camera, renderer, a1, a2, a3, Arm, shoulder, elbow, base, lowerArm;
+    var numsteps = 60;
 
     // Inicialización de la escena
     function init() {
@@ -123,7 +124,7 @@
         var delta = 0.05;  
         var currentPosition = base.position.clone();
         var newPosition = currentPosition.add(new THREE.Vector3(delta, 0, 0));
-         var P = new THREE.Vector3((lowerArm.position.x) / 2, (base.position.y) / 2, (lowerArm.position.z) / 2);
+        var P = new THREE.Vector3((lowerArm.position.x) / 2, (base.position.y) / 2, (lowerArm.position.z) / 2);
         var Q = (new THREE.Vector3((lowerArm.position.x) + (Arm.position.x / 2), (base.position.y) / 2, (lowerArm.position.z) + (Arm.position.z / 2)));
         moveArmToPoints(P, Q);
     }
@@ -153,29 +154,32 @@
 
     function render() {
         requestAnimationFrame(render);
-        var P = new THREE.Vector3((lowerArm.position.x) / 2, (base.position.y) / 2, (lowerArm.position.z) / 2);
-        var Q = (new THREE.Vector3((lowerArm.position.x) + (Arm.position.x / 2), (base.position.y) / 2, (lowerArm.position.z) + (Arm.position.z / 2)));
-        moveArmToPoints(P, Q);
-		  renderer.render(scene, camera);
+        let numSteps = 60;
+		var P = new THREE.Vector3(1,3,2);
+		var Q = new THREE.Vector3(2,5,2);
+		for(let i = 0; i <= numSteps; i++){
+		let factor = i / numSteps;
+		moveArmToPoints(P, Q,factor);
+		};
+		renderer.render(scene, camera);
     }
 
-    function moveArmToPoints(P, Q) {
-        var numSteps = 60  
-        var intermediatePositions = [];
-        for (var i = 0; i <= numSteps; i++) {
-            var factor = i / numSteps;
+   function moveArmToPoints(P, Q,factor) { 
+        var intermediatePositions = [];  
             var intermediatePosition = new THREE.Vector3(
                 (1 - factor) * P.x + factor * Q.x,
                 (1 - factor) * P.y + factor * Q.y,
                 (1 - factor) * P.z + factor * Q.z
             );
-            intermediatePositions.push(intermediatePosition);
-        }
+            
+            intermediatePositions.push(intermediatePosition); 
+			animateStep();   
 
-        var step = 0;
-        var interval = 10000;
+	
 
         function animateStep() {
+        var step = 0;
+        var interval = 10000;
             if (step < intermediatePositions.length) {
                 var intermediatePosition = intermediatePositions[step];
 
@@ -196,12 +200,11 @@
                 step++;
                 setTimeout(animateStep, interval);
             }
-        }
-
-        animateStep();  
+        } 
+        
     }
 
-    // Llamada a la función init
+    // Llamada a la funci?n init
     init();
 
     // Agregar event listeners a los botones
