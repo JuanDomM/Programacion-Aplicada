@@ -153,11 +153,14 @@
 
     function render() {
         requestAnimationFrame(render);
+        var P = new THREE.Vector3((lowerArm.position.x) / 2, (base.position.y) / 2, (lowerArm.position.z) / 2);
+        var Q = (new THREE.Vector3((lowerArm.position.x) + (Arm.position.x / 2), (base.position.y) / 2, (lowerArm.position.z) + (Arm.position.z / 2)));
+        moveArmToPoints(P, Q);
 		  renderer.render(scene, camera);
     }
 
     function moveArmToPoints(P, Q) {
-        var numSteps = 200;  
+        var numSteps = 60  
         var intermediatePositions = [];
         for (var i = 0; i <= numSteps; i++) {
             var factor = i / numSteps;
@@ -170,7 +173,7 @@
         }
 
         var step = 0;
-        var interval = 20;  
+        var interval = 10000;
 
         function animateStep() {
             if (step < intermediatePositions.length) {
