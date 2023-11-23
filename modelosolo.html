@@ -40,7 +40,7 @@ var geometry = new THREE.BoxGeometry( 2, 0.2, 2 );
 	//wireframe: true, 
 //});
 
-var material = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // 0x8B4513 es el código de color para el tono de café madera.
+var material = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // 0x8B4513 es el cÃ³digo de color para el tono de cafÃ© madera.
 
 var base = new THREE.Mesh( geometry, material );
 scene.add( base );
@@ -218,27 +218,6 @@ light = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(light);
 
 
-function calcularYMostrarAngulosYCoordenadas() {
-	for (let i = 0; i <= 60; i++) {
-		const t = i / 60;
-		const x03 = (1 - t) * 1 + t * 3;
-		const y03 = (1 - t) * 0.5 + t * 0.5;
-		const z03 = (1 - t) * 1 + t * -3;
-
-		const th1 = Math.atan2(z03, x03);
-		const r1 = Math.sqrt(x03 * 2 + z03 * 2);
-		const r2 = (y03 - a1);
-		const phi2 = Math.atan2(r2, r1);
-		const r3 = Math.sqrt(r1 * 2 + r2 * 2);
-		const phi1 = Math.acos((a3 * 2 - a2 * 2 - r3 ** 2) / (-2 * a2 * r3));
-		const th2 = (phi2 - phi1);
-		const phi3 = Math.acos((r3 * 2 - a2 * 2 - a3 ** 2) / (-2 * a2 * a3));
-		const th3 = 3.1416 - phi3;
-
-		results.push({ th1, th2, th3 });
-	}
-
-}
 
 // Rendering
 var zAxis = new THREE.Vector3(0, 0, 1);
