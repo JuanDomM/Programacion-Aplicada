@@ -280,6 +280,18 @@ var render = function () {
 };
 
 render();
+
+			document.getElementById("forwardBtn").addEventListener("click", moveForward);
+        document.getElementById("backwardBtn").addEventListener("click", moveBackward);
+        document.getElementById("turnLeftBtn").addEventListener("click", turnLeft);
+        document.getElementById("turnRightBtn").addEventListener("click", turnRight);
+
+        console.log("Posición de la base:", zBase);
+        console.log("Posición del hombro (shoulder):", shoulderPosition);
+        console.log("Posición del antebrazo (lowerArm):", yLowerArm);
+        console.log("Posición del codo (elbow):", elbowPosition);
+        console.log("Posición del brazo (Arm):", xArm);
+
 		</script>
 	</body>
 </html>
