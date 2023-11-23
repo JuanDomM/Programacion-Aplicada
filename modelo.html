@@ -52,10 +52,10 @@
 
 <body>
 <div id="floating-window" class="controls">
-        <button id="forwardBtn">Adelante</button>
-        <button id="backwardBtn">Atrás</button>
-        <button id="turnLeftBtn">Girar Izquierda</button>
-        <button id="turnRightBtn">Girar Derecha</button>
+        <button id="moveForward">Adelante</button>
+        <button id="moveBackward">AtrÃ¡s</button>
+        <button id="turnLeft">Girar Izquierda</button>
+        <button id="turnRight">Girar Derecha</button>
     </div>
     <div id="arm"></div>
 
@@ -93,7 +93,7 @@ var geometry = new THREE.BoxGeometry( 2, 0.2, 2 );
 	//wireframe: true, 
 //});
 
-var material = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // 0x8B4513 es el código de color para el tono de café madera.
+var material = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // 0x8B4513 es el cÃ³digo de color para el tono de cafÃ© madera.
 
 var base = new THREE.Mesh( geometry, material );
 scene.add( base );
@@ -145,68 +145,122 @@ base.add( base4 );
 	var zBase4 = geometry.parameters.depth;
 	var xBase4pos = geometry.position;
 
+var screw3 = new THREE.Object3D();
+screw3.translateZ(-1.2);
+screw3.translateY(0.9);
+screw3.translateX(0.3);
+base4.add(screw3);
+
+
 var geometry = new THREE.BoxGeometry ( 0.5, 3, 0.1);
 var shoulder = new THREE.Mesh(geometry, material);
-shoulder.translateZ(-0.95);
-shoulder.translateY(2);
-shoulder.translateX(0.3);
-base.add(shoulder);
+shoulder.translateZ(1.3);
+shoulder.translateY(0.8);
+shoulder.translateX(0);
+screw3.add(shoulder);
 
 	var xsh = geometry.parameters.width;
 	var ysh = geometry.parameters.height;
 	var zsh = geometry.parameters.depth;
 
 
+var screw1 = new THREE.Object3D();
+screw1.translateZ(0.8);
+screw1.translateY(0.9);
+screw1.translateX(0.3);
+base1.add(screw1);
+
 var geometry = new THREE.BoxGeometry ( 0.5, 3, 0.1);
 var shoulder1 = new THREE.Mesh(geometry, material);
-shoulder1.translateZ(0.85);
-shoulder1.translateY(2);
-shoulder1.translateX(0.3);
-base.add(shoulder1);
+shoulder1.translateZ(-0.95);
+shoulder1.translateY(0.8);
+shoulder1.translateX(0);
+screw1.add(shoulder1);
 
 	var xsh1 = geometry.parameters.width;
 	var ysh1 = geometry.parameters.height;
 	var zsh1 = geometry.parameters.depth;
+	
+	var screw2 = new THREE.Object3D();
+screw2.translateZ(0.8);
+screw2.translateY(0.9);
+screw2.translateX(-0.6);
+base1.add(screw2);
 
 var geometry = new THREE.BoxGeometry ( 0.5, 3, 0.1);
 var shoulder2 = new THREE.Mesh(geometry, material);
-shoulder2.translateZ(0.85);
-shoulder2.translateY(2);
-shoulder2.translateX(-0.6);
-base.add(shoulder2);
+shoulder2.translateZ(-0.95);
+shoulder2.translateY(0.8);
+shoulder2.translateX(0);
+screw2.add(shoulder2);
 
 	var xsh2 = geometry.parameters.width;
 	var ysh2 = geometry.parameters.height;
 	var zsh2 = geometry.parameters.depth;
+	
+	var screw4 = new THREE.Object3D();
+screw4.translateZ(-1.2);
+screw4.translateY(0.9);
+screw4.translateX(-0.6);
+base4.add(screw4);
+
 
 var geometry = new THREE.BoxGeometry ( 0.5, 3, 0.1);
 var shoulder3 = new THREE.Mesh(geometry, material);
-shoulder3.translateZ(-0.95);
-shoulder3.translateY(2);
-shoulder3.translateX(-0.6);
-base.add(shoulder3);
+shoulder3.translateZ(1.3);
+shoulder3.translateY(0.8);
+shoulder3.translateX(0);
+screw4.add(shoulder3);
 
 	var xsh3 = geometry.parameters.width;
 	var ysh3 = geometry.parameters.height;
 	var zsh3 = geometry.parameters.depth;
+	
+	
+	var screw7 = new THREE.Object3D();
+screw7.translateZ(-1);
+screw7.translateY(3.59);
+screw7.translateX(0.3);
+shoulder.add(screw7);
+	
+	
+	var screw8 = new THREE.Object3D();
+screw8.translateZ(-1);
+screw8.translateY(3.59);
+screw8.translateX(-0.6);
+shoulder3.add(screw8);
 
 var geometry = new THREE.BoxGeometry ( 4, 0.3, 0.1);
 var lowerarm = new THREE.Mesh(geometry, material);
 lowerarm.translateZ(-0.95);
 lowerarm.translateY(3.6);
 lowerarm.translateX(1.1);
-base.add(lowerarm);
+scre.add(lowerarm);
+
 
 	var xlarm = geometry.parameters.width;
 	var ylarm = geometry.parameters.height;
 	var zlarm = geometry.parameters.depth;
+	
+	var screw5 = new THREE.Object3D();
+screw5.translateZ(0.8);
+screw5.translateY(3.59);
+screw5.translateX(0.3);
+shoulder1.add(screw5);
+
+var screw6 = new THREE.Object3D();
+screw6.translateZ(0.8);
+screw6.translateY(3.59);
+screw6.translateX(-0.6);
+shoulder2.add(screw6);
 
 var geometry = new THREE.BoxGeometry ( 4, 0.3, 0.1);
 var lowerarm1 = new THREE.Mesh(geometry, material);
 lowerarm1.translateZ(0.85);
 lowerarm1.translateY(3.6);
 lowerarm1.translateX(1.1);
-base.add(lowerarm1);
+screw6.add(lowerarm1);
+
 
 	var xlarm1 = geometry.parameters.width;
 	var ylarm1 = geometry.parameters.height;
@@ -222,6 +276,12 @@ base.add(basem);
 	var xbasem = geometry.parameters.width;
 	var ybasem = geometry.parameters.height;
 	var zbasem = geometry.parameters.depth;
+
+var screw9= new THREE.Object3D();
+screw9.translateZ(-1.);
+screw9.translateY(3.54);
+screw9.translateX(1.5);
+basem.add(screw9);
 
 var geometry = new THREE.BoxGeometry (1.82, 0.2, 0.4);
 var hand1 = new THREE.Mesh(geometry, material);
@@ -240,64 +300,11 @@ base.add(hand2);
 var material = new THREE.MeshStandardMaterial({ color: 0xC0C0C0});
 
 
-var screw1 = new THREE.Object3D();
-screw1.translateZ(0.8);
-screw1.translateY(0.9);
-screw1.translateX(0.3);
-base1.add(screw1);
+
 
 shoulderPosition = screw1.position;
 
-var screw2 = new THREE.Object3D();
-screw2.translateZ(0.8);
-screw2.translateY(0.9);
-screw2.translateX(-0.6);
-base1.add(screw2);
 
-var screw3 = new THREE.Object3D();
-screw3.translateZ(-1.2);
-screw3.translateY(0.9);
-screw3.translateX(0.3);
-base4.add(screw3);
-
-var screw4 = new THREE.Object3D();
-screw4.translateZ(-1.2);
-screw4.translateY(0.9);
-screw4.translateX(-0.6);
-base4.add(screw4);
-
-
-var screw5 = new THREE.Object3D();
-screw5.translateZ(0.8);
-screw5.translateY(3.59);
-screw5.translateX(0.3);
-shoulder1.add(screw5);
-
-
-
-var screw6 = new THREE.Object3D();
-screw6.translateZ(0.8);
-screw6.translateY(3.59);
-screw6.translateX(-0.6);
-shoulder2.add(screw6);
-
-var screw7 = new THREE.Object3D();
-screw7.translateZ(-1);
-screw7.translateY(3.59);
-screw7.translateX(0.3);
-shoulder.add(screw7);
-
-var screw8 = new THREE.Object3D();
-screw8.translateZ(-1);
-screw8.translateY(3.59);
-screw8.translateX(-0.6);
-shoulder3.add(screw8);
-
-var screw9= new THREE.Object3D();
-screw9.translateZ(-1.);
-screw9.translateY(3.54);
-screw9.translateX(1.5);
-basem.add(screw9);
 
 // Light
 var light = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -311,7 +318,7 @@ scene.add(light);
 
  function moveForward() {
             const delta = 0.05;
-            const currentPosition = base.position.clone();
+            const currentPosition = base.parameters.clone();
             const newPosition = currentPosition.add(new THREE.Vector3(delta, 0, 0));
             //const P = new THREE.Vector3(xLowerArm / 2, yBase / 2, zLowerArm / 2);
             //const Q = new THREE.Vector3(xLowerArm + xArm / 2, yBase / 2, zLowerArm + zArm/ 2);
@@ -320,7 +327,7 @@ scene.add(light);
 
         function moveBackward() {
             const delta = -0.05;
-            const currentPosition = base.position.clone();
+            const currentPosition = base.parameters.clone();
             const newPosition = currentPosition.add(new THREE.Vector3(delta, 0, 0));
             //const P = new THREE.Vector3(xLowerArm / 2, yBase / 2, zLowerArm / 2);
             //const Q = new THREE.Vector3(xLowerArm + xArm / 2, yBase / 2, zLowerArm + zArm/ 2);
@@ -349,7 +356,7 @@ scene.add(light);
         const P = new THREE.Vector3((1) / 2, (1) / 2, (1) / 2);
         const Q = new THREE.Vector3((1) + (1 / 2), (1) / 2, (1) + (1	 / 2));
 
-        function moveArmToPoints(P, xAxis) {
+        function moveArmToPoints(P, Q) {
             results.length = 0;
             for (let i = 0; i <= 60; i++) {
                 const t = i / 60;
@@ -379,7 +386,7 @@ scene.add(light);
             th3R = (results[0].th3);
         }
 
-moveArmToPoints(P, xAxis);
+moveArmToPoints(P, Q);
 
 // Rendering
 var xAxis = new THREE.Vector3(1,0,0);
@@ -392,21 +399,21 @@ var X1= 45
 
 var render = function () {
   requestAnimationFrame( render );
-	const factor = Math.floor((Date.now() / 100) % 60);
+/*	const factor = Math.floor((Date.now() / 100) % 60);
             th1R = results[factor].th1;
             th2R = results[factor].th2;
             th3R = results[factor].th3;
 
- 	screw1.setRotationFromAxisAngle(yAxis, th2R);	
-	screw2.setRotationFromAxisAngle(yAxis, th2R);
-	screw3.setRotationFromAxisAngle(yAxis, th2R);
-	screw4.setRotationFromAxisAngle(yAxis, th2R);
+ 	screw1.setRotationFromAxisAngle(zAxis, th3R);	
+	screw2.setRotationFromAxisAngle(zAxis, th3R);
+	screw3.setRotationFromAxisAngle(zAxis, th3R);
+	screw4.setRotationFromAxisAngle(zAxis, th2R);
 	screw5.setRotationFromAxisAngle(zAxis, th3R);	
 	screw6.setRotationFromAxisAngle(zAxis, th3R);
-	screw7.setRotationFromAxisAngle(zAxis, th3R);
+	screw7.setRotationFromAxisAngle(zAxis, th2R);
 	screw8.setRotationFromAxisAngle(zAxis, th3R);
         
-
+*/
   renderer.render( scene, camera );
 };
 
@@ -414,11 +421,11 @@ render();
 
  	
 
-        console.log("Posición de la base:", zBase);
-        console.log("Posición del hombro (shoulder):", shoulderPosition);
-        console.log("Posición del antebrazo (lowerArm):", xsh2);
-        console.log("Posición de la base 4 (base4):", xBase4pos);
-        //console.log("Posición del brazo (Arm):", xArm);
+        console.log("PosiciÃ³n de la base:", zBase);
+        console.log("PosiciÃ³n del hombro (shoulder):", shoulderPosition);
+        console.log("PosiciÃ³n del antebrazo (lowerArm):", xsh2);
+        console.log("PosiciÃ³n de la base 4 (base4):", xBase4pos);
+        //console.log("PosiciÃ³n del brazo (Arm):", xArm);
 
 		</script>
 	</body>
